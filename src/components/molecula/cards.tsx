@@ -1,16 +1,12 @@
 import Heading from "../atomo/heading";
 import Text from "../atomo/text";
-
-type CardProps = {
-    heading: string;
-    text: string;
-};
+import { galletasDB } as GalleDB from "../../db/catalgoDB";
 
 export default function Card(
-    { heading, text }: CardProps
 ) {
     return (
         <div>
+            galletasDB.
             <Heading level={2} className="text-2xl font-bold mb-4">
                 {heading}
             </Heading>

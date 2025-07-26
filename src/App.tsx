@@ -11,9 +11,7 @@ function App() {
         <HeroText />
       </div>
       <Butonwssp phone="51964158504" message="Hola, estoy interesado en sus productos." newTab={true} variant="primary" disabled={false} />
-      <div>
-        <Card heading='galletas' text='galletas de chocolate' />
-      </div>
+      <Card/>
     </>
   )
 }
