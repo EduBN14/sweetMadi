@@ -1,4 +1,4 @@
-import Buton from "../buton/buton.tsx";
+import Buton from "../atomo/buton/buton.tsx";
 
 export type WhatsAppButtonProps = {
   phone: string;           // e.g. "51912345678"
@@ -13,7 +13,7 @@ export default function Butonwssp({
   message = "",
   newTab = true,
   variant,
-  disabled = false,
+  disabled = true,
 }: WhatsAppButtonProps) {
   const handleClick = () => {
     if (disabled) return;
@@ -33,7 +33,7 @@ export default function Butonwssp({
       disabled={disabled}
       type="button"
     >
-      Contactar por WhatsApp
+      Contactanos por WhatsApp 
     </Buton>
   );
 }
