@@ -1,19 +1,20 @@
-import Buton from "../atomo/buton/buton.tsx";
+import Buton from "../atomo/buton.tsx";
 
 export type WhatsAppButtonProps = {
-  phone: string;           // e.g. "51912345678"
-  message?: string;        // Texto predefinido
-  newTab?: boolean;        // Abrir en nueva pestaña (default: true)
+  phone?: string;           
+  message?: string;         
+  newTab?: boolean;         
   variant?: "primary" | "secondary";
   disabled?: boolean;
+  classname?: string;
 };
 
 export default function Butonwssp({
-  phone,
-  message = "",
+  phone = "51964158504",  
+  message = "Hola, estoy interesado en sus productos.", 
   newTab = true,
-  variant,
-  disabled = true,
+  variant = "primary",    
+  disabled = false,       
 }: WhatsAppButtonProps) {
   const handleClick = () => {
     if (disabled) return;
