@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import { CartContext } from "./CartContext";
+import { CartContext } from "./CartContext.context";
 
 // Hook personalizado para usar el contexto
 export function useCart() {
   const context = useContext(CartContext);
   if (context === undefined) {
-    throw new Error("useCart debe ser usado dentro de un CartProvider");
+    throw new Error("Not Found");
   }
   return context;
 }

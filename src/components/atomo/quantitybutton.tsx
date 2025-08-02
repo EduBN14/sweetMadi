@@ -1,9 +1,8 @@
 import clsx from "clsx";
+import { useCart } from "../../context/useCart";
 
 type QuantityButtonProps = {
-  quantity: number;
-  onIncrease: () => void;
-  onDecrease: () => void;
+  productId: string;
   min?: number;
   max?: number;
   disabled?: boolean;
@@ -11,17 +10,33 @@ type QuantityButtonProps = {
 };
 
 export default function QuantityButton({
-  quantity,
-  onIncrease,
-  onDecrease,
+  productId,
   min = 1,
   max = 99,
   disabled = false,
   size = "md"
 }: QuantityButtonProps) {
   
+  const { cart, updateQuantity } = useCart();
+  
+  // Encontrar el item en el carrito
+  const cartItem = cart.items.find(item => item.id === productId);
+  const quantity = cartItem?.cantidad || 0;
+  
   const canDecrease = quantity > min && !disabled;
   const canIncrease = quantity < max && !disabled;
+  
+  const handleIncrease = () => {
+    if (canIncrease) {
+      updateQuantity(productId, quantity + 1);
+    }
+  };
+  
+  const handleDecrease = () => {
+    if (canDecrease) {
+      updateQuantity(productId, quantity - 1);
+    }
+  };
 
   const sizeClasses = {
     sm: "w-6 h-6 text-sm",
@@ -40,7 +55,7 @@ export default function QuantityButton({
     <div className="flex items-center gap-2">
       {/* Botón Disminuir */}
       <button
-        onClick={onDecrease}
+        onClick={handleDecrease}
         disabled={!canDecrease}
         className={clsx(buttonClass, "text-raspberry-pink hover:bg-raspberry-pink hover:text-white")}
         aria-label="Disminuir cantidad"
@@ -60,7 +75,7 @@ export default function QuantityButton({
 
       {/* Botón Aumentar */}
       <button
-        onClick={onIncrease}
+        onClick={handleIncrease}
         disabled={!canIncrease}
         className={clsx(buttonClass, "text-raspberry-pink hover:bg-raspberry-pink hover:text-white")}
         aria-label="Aumentar cantidad"

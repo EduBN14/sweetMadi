@@ -1,8 +1,8 @@
 import Buton from "../atomo/buton.tsx";
+import { useCart } from "../../context/useCart";
 
 export type WhatsAppButtonProps = {
   phone?: string;           
-  message?: string;         
   newTab?: boolean;         
   variant?: "primary" | "secondary";
   disabled?: boolean;
@@ -11,15 +11,43 @@ export type WhatsAppButtonProps = {
 
 export default function Butonwssp({
   phone = "51964158504",  
-  message = "Hola, estoy interesado en sus productos.", 
   newTab = true,
   variant = "primary",    
   disabled = false,       
 }: WhatsAppButtonProps) {
+  
+  const { cart } = useCart();
+  
   const handleClick = () => {
     if (disabled) return;
-    const textParam = message ? `?text=${encodeURIComponent(message)}` : "";
+    
+    // Generar mensaje detallado del carrito
+    let message = "¡Hola! Me interesa realizar el siguiente pedido:\n\n";
+    
+    if (cart.itemCount === 0) {
+      message = "Hola, estoy interesado en sus productos.";
+    } else {
+      message += "🛒 *DETALLE DEL PEDIDO:*\n";
+      message += "━━━━━━━━━━━━━━━━━━━━━\n\n";
+      
+      // Agregar cada producto
+      cart.items.forEach((item, index) => {
+        message += `${index + 1}. *${item.nombre}*\n`;
+        message += `   📦 Cantidad: ${item.cantidad}\n`;
+        message += `   💰 Precio c/u: S/ ${item.precio.toFixed(2)}\n`;
+        message += `   💵 Subtotal: S/ ${(item.precio * item.cantidad).toFixed(2)}\n\n`;
+      });
+      
+      message += "━━━━━━━━━━━━━━━━━━━━━\n";
+      message += `🧮 *TOTAL GENERAL: S/ ${cart.total.toFixed(2)}*\n`;
+      message += `📋 Total de items: ${cart.itemCount}\n\n`;
+      message += "¿Podrían confirmar la disponibilidad y el tiempo de entrega?\n\n";
+      message += "¡Gracias! 😊";
+    }
+    
+    const textParam = `?text=${encodeURIComponent(message)}`;
     const url = `https://wa.me/${phone}${textParam}`;
+    
     if (newTab) {
       window.open(url, "_blank", "noopener,noreferrer");
     } else {
@@ -34,7 +62,7 @@ export default function Butonwssp({
       disabled={disabled}
       type="button"
     >
-      Contactanos por WhatsApp 
+      {cart.itemCount > 0 ? `Enviar Pedido (${cart.itemCount} items)` : "Contactanos por WhatsApp"}
     </Buton>
   );
 }

@@ -1,9 +1,13 @@
 import HeroText from '../molecula/herotext';
 import Butonwssp from '../molecula/butonwssp';
+import CartSummary from '../molecula/CartSummary';
 
 export default function Header() {
   return (
     <header className="mb-8">
+      {/* Carrito fijo - se renderiza pero se posiciona de forma fija */}
+      <CartSummary />
+      
       <div className="flex flex-col md:flex-row items-center gap-4 mx-auto px-4 md:px-24">
         <img
           src="src/assets/img/Logo_circular.png"

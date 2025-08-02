@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Heading from "../atomo/heading";
 import QuantityButton from "../atomo/quantitybutton";
 import Text from "../atomo/text";
@@ -10,35 +9,15 @@ type CardProps = {
     descripcion: string;
     precio?: number;
     img?: string;
+    priceMolde?: number;
 }
 
-export default function Card({ id, nombre, descripcion, precio = 0, img = "" }: CardProps) {
-    const { cart, updateQuantity, addToCart } = useCart();
-    const [localQuantity, setLocalQuantity] = useState(1);
+export default function Card({ id, nombre, descripcion, precio = 3.00, img = "", priceMolde }: CardProps) {
+    const { cart, addToCart, removeFromCart } = useCart();
     
     // Buscar si el item ya está en el carrito
     const cartItem = cart.items.find(item => item.id === id.toString());
     const quantityInCart = cartItem ? cartItem.cantidad : 0;
-
-    const handleIncrease = () => {
-        if (quantityInCart > 0) {
-            // Si ya está en el carrito, actualizar directamente
-            updateQuantity(id.toString(), quantityInCart + 1);
-        } else {
-            // Si no está en el carrito, aumentar cantidad local
-            setLocalQuantity(prev => prev + 1);
-        }
-    };
-
-    const handleDecrease = () => {
-        if (quantityInCart > 0) {
-            // Si está en el carrito, actualizar directamente
-            updateQuantity(id.toString(), quantityInCart - 1);
-        } else {
-            // Si no está en el carrito, disminuir cantidad local
-            setLocalQuantity(prev => Math.max(1, prev - 1));
-        }
-    };
 
     const handleAddToCart = () => {
         addToCart({
@@ -48,11 +27,23 @@ export default function Card({ id, nombre, descripcion, precio = 0, img = "" }: 
             img,
             descripcion
         });
-        setLocalQuantity(1); // Resetear cantidad local
     };
 
-    const displayQuantity = quantityInCart > 0 ? quantityInCart : localQuantity;
+    const handleAddMoldeToCart = () => {
+        if (priceMolde) {
+            addToCart({
+                id: `${id}-molde`,
+                nombre: `${nombre} (Molde completo)`,
+                precio: priceMolde,
+                img,
+                descripcion: `${descripcion} - Molde completo`
+            });
+        }
+    };
 
+    const handleRemoveFromCart = () => {
+        removeFromCart(id.toString());
+    };
 
     return (
         <div key={id} className="border p-4 rounded-lg">
@@ -63,31 +54,56 @@ export default function Card({ id, nombre, descripcion, precio = 0, img = "" }: 
                 {descripcion}
             </Text>
             
-            {/* Mostrar precio si está disponible */}
-            {precio > 0 && (
-                <Text className="text-xl font-semibold text-raspberry-pink mb-4">
-                    S/ {precio.toFixed(2)}
+            {/* Mostrar precios */}
+            <div className="mb-4">
+                <Text className="text-xl font-semibold text-raspberry-pink">
+                    Por unidad: S/ {precio.toFixed(2)}
                 </Text>
-            )}
-            
-            <div className="flex items-center justify-between">
-                <QuantityButton
-                    quantity={displayQuantity}
-                    onIncrease={handleIncrease}
-                    onDecrease={handleDecrease}
-                />
-                
-                {quantityInCart === 0 ? (
-                    <button
-                        onClick={handleAddToCart}
-                        className="bg-raspberry-pink text-white px-4 py-2 rounded-lg hover:bg-raspberry-dark transition"
-                    >
-                        Agregar al carrito
-                    </button>
-                ) : (
-                    <Text className="text-green-600 font-semibold">
-                        En el carrito: {quantityInCart}
+                {priceMolde && (
+                    <Text className="text-lg font-medium text-blue-600">
+                        Molde completo: S/ {priceMolde.toFixed(2)}
                     </Text>
+                )}
+            </div>
+            
+            <div className="space-y-3">
+                {/* Sección por unidad */}
+                <div className="flex items-center justify-between border rounded-lg p-3 bg-gray-50">
+                    <Text className="font-medium text-gray-700">Por unidad:</Text>
+                    {quantityInCart === 0 ? (
+                        <button
+                            onClick={handleAddToCart}
+                            className="bg-raspberry-pink text-white px-4 py-2 rounded-lg hover:bg-raspberry-600 transition text-sm"
+                        >
+                            Agregar al carrito
+                        </button>
+                    ) : (
+                        <div className="flex items-center gap-3">
+                            <QuantityButton productId={id.toString()} />
+                            <Text className="text-green-600 font-semibold text-sm">
+                                En carrito: {quantityInCart}
+                            </Text>
+                            <button
+                                onClick={handleRemoveFromCart}
+                                className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition text-sm"
+                            >
+                                Eliminar
+                            </button>
+                        </div>
+                    )}
+                </div>
+                
+                {/* Sección por molde (solo si existe precio por molde) */}
+                {priceMolde && (
+                    <div className="flex items-center justify-between border rounded-lg p-3 bg-blue-50">
+                        <Text className="font-medium text-blue-700">Molde completo:</Text>
+                        <button
+                            onClick={handleAddMoldeToCart}
+                            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-sm"
+                        >
+                            Agregar molde
+                        </button>
+                    </div>
                 )}
             </div>
         </div>

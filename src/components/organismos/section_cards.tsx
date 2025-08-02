@@ -1,5 +1,6 @@
 import Card from "../molecula/cards";
 import { galletasDB } from "../../db/catalgoDB";
+import { parsePrice } from "../../utils/priceUtils";
 
 export default function SectionCards() {
   return (
@@ -10,6 +11,9 @@ export default function SectionCards() {
           id={galleta.id}
           nombre={galleta.nombre}
           descripcion={galleta.descripcion}
+          precio={parsePrice(galleta.priceUnidad)}
+          img={galleta.img}
+          priceMolde={galleta.priceMolde ? parsePrice(galleta.priceMolde) : undefined}
         />
       ))}
     </section>

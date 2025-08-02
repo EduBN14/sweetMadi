@@ -1,5 +1,6 @@
-import { createContext, useReducer, ReactNode } from "react";
+import { useReducer, ReactNode } from "react";
 import type { CartItem, CartState, CartContextType } from "../models/cart_types";
+import { CartContext } from "./CartContext.context";
 
 // Estado inicial del carrito
 const initialState: CartState = {
@@ -76,9 +77,6 @@ function calculateTotals(state: CartState): CartState {
     itemCount
   };
 }
-
-// Crear el contexto
-export const CartContext = createContext<CartContextType | undefined>(undefined);
 
 // Provider del contexto
 export function CartProvider({ children }: { children: ReactNode }) {
