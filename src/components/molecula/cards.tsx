@@ -46,7 +46,7 @@ export default function Card({ id, nombre, descripcion, precio = 3.00, img = "",
     };
 
     return (
-        <div key={id} className="border p-4 rounded-lg">
+        <div key={id} className="border p-4 rounded-lg border-peach-white">
             <Heading level={2} className="text-2xl font-bold mb-4">
                 {nombre}
             </Heading>
@@ -68,7 +68,7 @@ export default function Card({ id, nombre, descripcion, precio = 3.00, img = "",
             
             <div className="space-y-3">
                 {/* Sección por unidad */}
-                <div className="flex items-center justify-between border rounded-lg p-3 bg-gray-50">
+                <div className="flex items-center justify-between border rounded-lg p-3 bg-raspberry-100">
                     <Text className="font-medium text-gray-700">Por unidad:</Text>
                     {quantityInCart === 0 ? (
                         <button
@@ -95,13 +95,13 @@ export default function Card({ id, nombre, descripcion, precio = 3.00, img = "",
                 
                 {/* Sección por molde (solo si existe precio por molde) */}
                 {priceMolde && (
-                    <div className="flex items-center justify-between border rounded-lg p-3 bg-blue-50">
+                    <div className="flex items-center justify-between border rounded-lg p-3 bg-raspberry-100">
                         <Text className="font-medium text-blue-700">Molde completo:</Text>
                         <button
                             onClick={handleAddMoldeToCart}
-                            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-sm"
+                            className="bg-raspberry-pink text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-sm"
                         >
-                            Agregar molde
+                            Agregar Molde
                         </button>
                     </div>
                 )}

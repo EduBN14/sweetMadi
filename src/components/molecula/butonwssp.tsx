@@ -62,7 +62,7 @@ export default function Butonwssp({
       disabled={disabled}
       type="button"
     >
-      {cart.itemCount > 0 ? `Enviar Pedido (${cart.itemCount} items)` : "Contactanos por WhatsApp"}
+      {cart.itemCount > 0 ? `Enviar Pedido (${cart.itemCount} Postres)` : "Contactanos por WhatsApp"}
     </Buton>
   );
 }

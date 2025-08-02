@@ -16,8 +16,8 @@ export default function CartSummary() {
   
   if (cart.itemCount === 0) {
     return (
-      <div className="fixed top-4 right-4 z-50 bg-gray-100 text-gray-500 px-4 py-2 rounded-lg shadow-lg border">
-        <Text className="text-gray-500 text-sm">
+      <div className="fixed top-4 right-4 z-50 bg-raspberry-pink text-gray-500 px-4 py-2 rounded-lg shadow-lg border">
+        <Text className="text-white text-sm">
           Carrito vacío
         </Text>
       </div>
