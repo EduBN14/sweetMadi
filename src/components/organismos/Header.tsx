@@ -10,7 +10,7 @@ export default function Header() {
       
       <div className="flex flex-col md:flex-row items-center gap-4 mx-auto px-4 md:px-24">
         <img
-          src="src/assets/img/Logo_circular.png"
+          src="/images/Logo_circular.png"
           alt="Sweet Madi Logo"
           className="w-48 sm:w-56 md:w-64 max-w-full h-auto object-contain rounded-lg"
         />
